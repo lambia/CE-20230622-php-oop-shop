@@ -1,6 +1,11 @@
 <?php 
 
+require_once __DIR__ . "/../traits/Weightable.php";
+require_once __DIR__ . "/Category.php";
+
 class Product {
+
+	use Weightable;
 
 	public $name;
 	private $price;
@@ -30,6 +35,17 @@ class Product {
 	}
 
 	public function getPrice() {
+
+		if( is_null($this->price) || is_nan($this->price) ) {
+			throw new Exception("valore non numerico");
+		}
+
+		if($this->price < 0) {
+			throw new RangeException("prezzo negativo");
+		} else if($this->price==0) {
+			throw new RangeException("prezzo zero");
+		}
+
 		return $this->price . " €";
 	}
 
