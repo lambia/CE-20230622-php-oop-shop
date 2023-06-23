@@ -5,16 +5,15 @@ require_once __DIR__ . "/Category.php";
 
 class Product {
 
-	use Weightable;
-
 	public $name;
 	private $price;
 	public $is_available;
 	public $quantity;
 	public $image;
 	public $category;
+	public $discount;
 
-	public function __construct($name, $price, $is_available, $quantity, $image, Category $category)
+	public function __construct($name, $price, $is_available, $quantity, $image, Category $category, $discount)
 	{
 		$this->name = $name;
 		$this->price = $price;
@@ -22,6 +21,7 @@ class Product {
 		$this->quantity = $quantity;
 		$this->image = $image;
 		$this->category = $category;
+		$this->discount = $discount;
 	}
 
 	public function getClassName() {
@@ -36,7 +36,7 @@ class Product {
 
 	public function getPrice() {
 
-		if( is_null($this->price) || is_nan($this->price) ) {
+		if( is_null($this->price) || !is_numeric($this->price) ) {
 			throw new Exception("valore non numerico");
 		}
 
@@ -47,6 +47,14 @@ class Product {
 		}
 
 		return $this->price . " €";
+	}
+
+	public function getDiscount() {
+		return $this->discount;
+	}
+
+	public function setDiscount($value) {
+		$this->discount = $value;
 	}
 
 }
